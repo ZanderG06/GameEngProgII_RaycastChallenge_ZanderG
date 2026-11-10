@@ -12,7 +12,14 @@ public class MouseRaycast : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-            if (Physics.Raycast(ray, out RaycastHit raycastHit) && raycastHit.transform != null) raycastDisplay.text = $"Hit: {raycastHit.transform.name}";
+            if (Physics.Raycast(ray, out RaycastHit raycastHit) && raycastHit.transform != null) CheckClickedObject(raycastHit.transform.gameObject);
         }
+    }
+
+    private void CheckClickedObject(GameObject gameObject)
+    {
+        if (gameObject.name == "Pickup") Destroy(gameObject);
+        else if (gameObject.name == "ColorChange") gameObject.GetComponent<Renderer>().material.color = new Color(Random.Range(0, 2), Random.Range(0, 2), Random.Range(0, 2));
+        else gameObject.GetComponent<Animator>().enabled = !gameObject.GetComponent<Animator>().enabled;
     }
 }
